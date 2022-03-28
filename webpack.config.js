@@ -1,61 +1,49 @@
-const path = require("path");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const isDevelopment = process.env.NODE_ENV === "production";
-const react_refresh_webpack_plugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  mode: isDevelopment ? "development" : "production",
-  devtool: isDevelopment ? "eval-source-map" : "source-map",
-
-  entry: path.resolve(__dirname, "src", "index.tsx"),
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
-  },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
-  },
-  resolve: {
-    extensions: [".js", ".jsx", "tsx", "ts"],
-  },
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, "public"),
+    mode: isDevelopment ? 'development' : 'production',
+    devtool: isDevelopment ? 'eval-source-map' : 'source-map',
+    entry: path.resolve(__dirname, 'src', 'index.tsx'),
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
     },
-    port: 3004,
-    devMiddleware: {
-      publicPath: "https://localhost:3004",
+    resolve: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
     },
-    hot: "only",
-  },
-  plugins: [
-    isDevelopment && new react_refresh_webpack_plugin(),
-    new HtmlWebPackPlugin({
-      template: path.resolve(__dirname, "public", "index.html"),
-    }),
-  ].filter(Boolean),
-
-  module: {
-    rules: [
-      {
-        test: /\.(j|t)sx$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: [
-              isDevelopment && require.resolve('react-refresh/babel')
-            ].filter(Boolean)
+    devServer: {
+        static: path.resolve(__dirname, 'public'),
+        hot: true,
+    },
+    plugins: [
+        isDevelopment && new ReactRefreshWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, 'public', 'index.html')
+        })
+    ].filter(Boolean),
+    module: {
+        rules: [
+            {
+                test: /\.(j|t)sx$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        plugins: [
+                            isDevelopment && require.resolve('react-refresh/babel')
+                        ].filter(Boolean)
+                    }
+                }
             },
-        }
-      },
-      {
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        use: ["style-loader", "css-loader", "sass-loader"],
-      },
-    ],
-  },
+            {
+                test: /\.scss$/,
+                exclude: /node_modules/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            }
+        ],
+    }
 };
