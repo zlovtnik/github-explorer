@@ -1,8 +1,14 @@
 {
-    "presets": ["@babel/preset-react"],
-    "env": {
-      "development": {
-        "presets": [["@babel/preset-react", { "runtime": "automatic" }]]
-      }
+  "presets": ["@babel/preset-react", "@babel/env", "@babel/typescript"],
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "@babel/preset-react",
+          "@babel/typescript",
+          { "runtime": "automatic" }
+        ]
+      ]
     }
   }
+}
