@@ -13,7 +13,7 @@ export function RepositoryList() {
     const [repositories, setRepositories] = useState<Repository[]>([])
 
     useEffect(() => {
-        fetch('https://api.github.com/users/jonasmcarvalho/repos')
+        fetch('https://api.github.com/users/zlovtnik/repos')
             .then(response => response.json())
             .then(data => setRepositories(data))
     }, [])
